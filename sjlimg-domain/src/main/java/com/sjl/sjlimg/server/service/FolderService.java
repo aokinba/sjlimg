@@ -26,6 +26,10 @@ public class FolderService {
         return folderRepository.findAll();
     }
 
+    public void deleteById(Long id) {
+        folderRepository.deleteById(id);
+    }
+
     @Transactional
     public String save(Folder folder) {
         folderRepository.save(folder);
@@ -33,7 +37,7 @@ public class FolderService {
             throw new RuntimeException("测试");
         }
         if (folder.getName().equals("test2")) {
-            int d  = 1 /0;
+            int d = 1 / 0;
         }
         return folder.getId().toString();
     }
