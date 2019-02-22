@@ -26,9 +26,8 @@ public class FolderController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Mono<Long> delete(@PathVariable Long id) throws Exception {
+    public void delete(@PathVariable Long id) throws Exception {
         folderService.deleteById(id);
-        return Mono.just(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
