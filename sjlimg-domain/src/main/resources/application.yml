@@ -1,8 +1,19 @@
 server:
   #端口
-  port: 8080
-
+  port: 9002
+  
 spring:
+  application:
+    name: sjlimg-server
   # 环境 dev|test|prod
   profiles:
     active: dev
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.host:127.0.0.1}:${eureka.port:8761}/eureka/
+  instance:
+    prefer-ip-address: true
+    
+
