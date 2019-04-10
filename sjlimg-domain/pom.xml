@@ -43,15 +43,28 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <!--        <dependency>
-            <groupId>in.clouthink.repack</groupId>
-            <artifactId>fastdfs-client-java</artifactId>
-            <version>1.29.4</version>
-        </dependency>-->
         <dependency>
             <groupId>org.csource</groupId>
             <artifactId>fastdfs-client-java</artifactId>
             <version>1.27-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sjl</groupId>
+            <artifactId>sjloauth2-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
         </dependency>
 
         <!-- 引入druid依赖 -->

@@ -1,5 +1,6 @@
 package com.sjl.sjlimg.server;
 
+//import com.sjl.sjloauth2.common.utils.SjlCommon;
 import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +23,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 public class SjlimgServerApplication extends ResourceServerConfigurerAdapter {
 
     public static void main(String[] args) {
+//        SjlCommon.getTest();
         SpringApplication.run(SjlimgServerApplication.class, args);
     }
 

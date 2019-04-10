@@ -29,9 +29,19 @@ public class Imgs implements Serializable {
     private String folderId;
 
     /**
+     * 用户id
+     */
+    private String userId;
+
+    /**
      * 文件路径
      */
     private String srcPath;
+
+    /**
+     * 文件名
+     */
+    private String fileName;
 
     public Long getId() {
         return id;
@@ -55,6 +65,22 @@ public class Imgs implements Serializable {
 
     public void setFolderId(String folderId) {
         this.folderId = folderId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }
