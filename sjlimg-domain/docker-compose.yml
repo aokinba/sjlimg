@@ -1,0 +1,31 @@
+version: '2'
+services:
+  tracker:
+    image: season/fastdfs:1.2
+    restart: always
+    volumes:
+      - "k:/fastdfs/tracker:/fastdfs/tracker/data"
+    network_mode: "host"
+    command: "tracker" 
+ 
+  storage:
+    image: season/fastdfs:1.2
+    restart: always
+    volumes:
+      - "k:/fastdfs/storage_base_path:/fastdfs/storage/data"
+      - "k:/fastdfs/store_path0:/fastdfs/store_path"
+    environment:
+      TRACKER_SERVER: "10.0.75.2:22122"
+    network_mode: "host"
+    command: "storage"
+ 
+  nginx:
+    image: season/fastdfs:1.2
+    restart: always
+    volumes:
+      - "k:/fastdfs/nginx.conf:/etc/nginx/conf/nginx.conf"
+      - "k:/fastdfs/store_path0:/fastdfs/store_path"
+    environment:
+      TRACKER_SERVER: "10.0.75.2:22122"
+    network_mode: "host"
+    command: "nginx" 

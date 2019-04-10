@@ -1,7 +1,10 @@
 package com.sjl.sjlimg.server;
 
+import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -16,12 +19,24 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableResourceServer
-public class SjlimgServerApplication extends ResourceServerConfigurerAdapter{
+public class SjlimgServerApplication extends ResourceServerConfigurerAdapter {
 
     public static void main(String[] args) {
         SpringApplication.run(SjlimgServerApplication.class, args);
     }
-    
+
+    @Bean
+    public TomcatServletWebServerFactory tomcatEmbedded() {
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
+        tomcat.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
+            if ((connector.getProtocolHandler() instanceof AbstractHttp11Protocol<?>)) {
+                //-1 means unlimited
+                ((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(-1);
+            }
+        });
+        return tomcat;
+    }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
