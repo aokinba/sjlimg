@@ -5,18 +5,20 @@
  */
 package com.sjl.sjlimg.server.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.sjl.sjlimg.server.entity.Imgs;
 import com.sjl.sjlimg.server.entity.ImgsRepository;
 import com.sjl.sjlimg.server.utils.FastDFSClient;
 import com.sjl.sjlimg.server.utils.FastDFSFile;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import com.sjl.sjlimg.server.vo.TokenVo;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.logging.Level;
+import java.util.Map;
 import javax.annotation.Resource;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,23 +89,29 @@ public class ImgsService {
         imgs.setSrcPath(path);
         imgs.setFileName(fileName);
         String token = redisTemplate.opsForValue().get("token");
-        try {
-            Claims claims =  parseJWT(token, "springcloud123");
-            System.out.println("11111111");
-        } catch (Exception ex) {
-            logger.error(ex.getMessage());
-        }
-        System.out.println(token);
-        imgs.setUserId(token);
+        String userName = userNameByToken(token);
+        logger.debug(token);
+        imgs.setUserId(userName);
         this.save(imgs);
-
         return path;
     }
 
-    public static Claims parseJWT(String jwt, String secretKey) throws Exception {
-        byte[] bytes = Base64.encodeBase64(secretKey.getBytes("utf-8"));
-        Claims claims = Jwts.parser().setSigningKey(bytes).parseClaimsJws(jwt).getBody();
-        return claims;
+    private String userNameByToken(String token) {
+        String[] tokenSplit = token.split("\\.");
+        byte[] base64decodedBytes = java.util.Base64.getDecoder().decode(tokenSplit[1]);
+        try {
+            String t = new String(base64decodedBytes, "utf-8");
+
+            Gson gson2 = new GsonBuilder().enableComplexMapKeySerialization().create();
+            TokenVo vo = gson2.fromJson(t, new TypeToken<TokenVo>() {
+            }.getType());
+            if (vo != null) {
+                return vo.getUser_name();
+            }
+        } catch (UnsupportedEncodingException ex) {
+            logger.debug(null, ex);
+        }
+        return null;
     }
 
 }
